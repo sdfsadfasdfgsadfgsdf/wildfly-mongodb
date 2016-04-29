@@ -1,7 +1,10 @@
 package it.de.seven.fate.dao;
 
+import de.seven.fate.dao.PersonDAO;
 import de.seven.fate.dao.PropertyDAO;
+import de.seven.fate.model.Person;
 import de.seven.fate.model.Property;
+import de.seven.fate.model.builder.PersonBuilder;
 import de.seven.fate.model.builder.PropertyBuilder;
 import it.de.seven.fate.util.DeploymentUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -22,11 +25,11 @@ import static org.junit.Assert.assertNotNull;
 
 
 @RunWith(Arquillian.class)
-public class PropertyDAOIT {
+public class PersonDAOIT {
 
 
     @Inject
-    PropertyDAO sut;
+    PersonDAO sut;
 
     @PersistenceContext
     EntityManager em;
@@ -35,9 +38,9 @@ public class PropertyDAOIT {
     UserTransaction transaction;
 
     @Inject
-    PropertyBuilder builder;
+    PersonBuilder builder;
 
-    Property model;
+    Person model;
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -61,8 +64,34 @@ public class PropertyDAOIT {
     }
 
     @Test
-    public void getByKey() throws Exception {
-        assertNotNull(sut.getByKey(model.getKey()));
+    public void getByAccountId() throws Exception {
+        assertNotNull(sut.getByAccountId(model.getAccountId()));
+    }
+
+    @Test
+    public void getByAccountIdOnIdNull() throws Exception {
+        model.setId(null);
+        assertNotNull(sut.get(model));
+    }
+
+    @Test
+    public void getAllByFirstName() throws Exception {
+        assertNotNull(sut.getAllByFirstName(model.getFirstName()));
+    }
+
+    @Test
+    public void getAllWhereFirstName() throws Exception {
+        assertNotNull(sut.getAllByLastName(model.getFirstName().substring(0, 5)));
+    }
+
+    @Test
+    public void getAllByLastName() throws Exception {
+        assertNotNull(sut.getAllByLastName(model.getLastName()));
+    }
+
+    @Test
+    public void getAllWhereLastName() throws Exception {
+        assertNotNull(sut.getAllByLastName(model.getLastName().substring(0, 5)));
     }
 
     @Test

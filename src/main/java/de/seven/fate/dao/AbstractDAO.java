@@ -10,7 +10,9 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Mario on 27.04.2016.
@@ -40,6 +42,12 @@ public class AbstractDAO<E extends IdAble> {
         copyProperties(recent, property);
 
         em.merge(recent);
+    }
+
+    public void save(Collection<E> entities) {
+        Optional.of(entities).ifPresent((collection) -> {
+            collection.forEach(this::save);
+        });
     }
 
     public void copyProperties(E recent, E entity) {
@@ -83,11 +91,8 @@ public class AbstractDAO<E extends IdAble> {
     }
 
     public void delete(E entity) {
-        if (entity == null) {
-            return;
-        }
 
-        em.remove(entity);
+        Optional.of(entity).ifPresent(em::remove);
     }
 
     @PostConstruct

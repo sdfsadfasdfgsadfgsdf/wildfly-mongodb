@@ -28,7 +28,7 @@ public class PropertyDAO extends AbstractDAO<Property> {
     public Property getByKey(String propertyKey) {
         Validate.notNull(propertyKey);
 
-        Query query = em.createQuery("FROM Property p WHERE p.key =:key");
+        Query query = em.createQuery("FROM Property p WHERE p.key = :key");
         query.setParameter("key", propertyKey);
 
         List<Property> resultList = query.getResultList();

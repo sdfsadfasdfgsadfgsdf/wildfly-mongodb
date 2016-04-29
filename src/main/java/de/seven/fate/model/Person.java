@@ -7,9 +7,8 @@ package de.seven.fate.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,9 +20,13 @@ public class Person implements IdAble {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    private Long accountId;
+
     private String firstName;
     private String lastName;
     private int age;
+
+    @OneToMany
     private List<Property> phones;
 
     public String getId() {
@@ -66,6 +69,14 @@ public class Person implements IdAble {
         this.phones = phones;
     }
 
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,12 +85,13 @@ public class Person implements IdAble {
         return age == person.age &&
                 Objects.equals(firstName, person.firstName) &&
                 Objects.equals(lastName, person.lastName) &&
+                Objects.equals(accountId, person.accountId) &&
                 Objects.equals(phones, person.phones);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, age, phones);
+        return Objects.hash(firstName, lastName, age, phones, accountId);
     }
 
     @Override
@@ -90,6 +102,7 @@ public class Person implements IdAble {
                 .append("lastName", lastName)
                 .append("age", age)
                 .append("phones", phones)
+                .append("accountId", accountId)
                 .toString();
     }
 }

@@ -12,12 +12,17 @@ public final class DeploymentUtil {
     private static final MavenResolverSystem RESOLVER = Maven.resolver();
     private static final PomEquippedResolveStage DEPENDENCIES = RESOLVER.loadPomFromFile("pom.xml").importRuntimeAndTestDependencies();
 
+    private static WebArchive webArchive;
+
     private DeploymentUtil() {
     }
 
     public static WebArchive createDeployment(Class... classes) {
 
-        return ShrinkWrap.create(WebArchive.class, "test.war")
+        if (webArchive != null) {
+            return webArchive;
+        }
+        return webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addPackages(true, "de.seven.fate") //
                 .addClasses(classes) //
                 .addAsLibraries(DEPENDENCIES.resolve("org.apache.commons:commons-lang3").withTransitivity().asFile()) //
