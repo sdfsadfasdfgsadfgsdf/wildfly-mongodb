@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:form id="form">
+        <h:outputLabel value="Add new Property"/>
+        <h:panelGrid>
+            <h:inputHidden value="#{propertyController.property.id}"/>
+            <h:inputText value="#{propertyController.property.key}"/>
+            <h:inputText value="#{propertyController.property.value}"/>
+            <h:commandButton actionListener="#{propertyController.save}" value="Apply"/>
+        </h:panelGrid>
+        <h:outputLabel value="Display all Properties"/>
+        <h:dataTable value="#{propertyController.properties}" var="property">
+            <h:column>
+                <f:facet name="header">Key</f:facet>
+                <h:outputText value="#{property.key}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Value</f:facet>
+                <h:outputText value="#{property.value}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Edit</f:facet>
+                <h:commandButton actionListener="#{propertyController.edit(property.id)}" value="Edit"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Delete</f:facet>
+                <h:commandButton actionListener="#{propertyController.delete(property.id)}" value="Delete"/>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+</f:view>
+</html>
