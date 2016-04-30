@@ -80,4 +80,13 @@ public class PersonDAO extends AbstractDAO<Person> {
 
         return query.getResultList();
     }
+
+    public List<Person> getAllByPhone(Property phone) {
+        Validate.notNull(phone);
+
+        Query query = em.createQuery("FROM Person p WHERE :phone in (p.phones)");
+        query.setParameter("phone", phone);
+
+        return query.getResultList();
+    }
 }

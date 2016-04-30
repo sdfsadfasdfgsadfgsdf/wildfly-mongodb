@@ -1,11 +1,8 @@
 package it.de.seven.fate.dao;
 
 import de.seven.fate.dao.PersonDAO;
-import de.seven.fate.dao.PropertyDAO;
 import de.seven.fate.model.Person;
-import de.seven.fate.model.Property;
 import de.seven.fate.model.builder.PersonBuilder;
-import de.seven.fate.model.builder.PropertyBuilder;
 import it.de.seven.fate.util.DeploymentUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -92,6 +89,11 @@ public class PersonDAOIT {
     @Test
     public void getAllWhereLastName() throws Exception {
         assertNotNull(sut.getAllByLastName(model.getLastName().substring(0, 5)));
+    }
+
+    @Test
+    public void getAllByPhone() throws Exception {
+        assertNotNull(sut.getAllByPhone(model.getPhones().stream().findAny().get()));
     }
 
     @Test
